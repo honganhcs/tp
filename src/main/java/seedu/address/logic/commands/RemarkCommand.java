@@ -4,7 +4,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
-import java.util.Objects;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -16,7 +15,7 @@ import seedu.address.model.person.Remark;
 /**
  * Changes the remark of an existing person in the address book.
  */
-public class RemarkCommand extends Command{
+public class RemarkCommand extends Command {
     public static final String COMMAND_WORD = "remark";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the remark of the person identified "
@@ -31,6 +30,12 @@ public class RemarkCommand extends Command{
     private final Index index;
     private final Remark remark;
 
+    /**
+     * Creates a RemarkCommand object.
+     *
+     * @param index the Index of the Person the user wants to add a remark for.
+     * @param remark contains the user's remark for above person.
+     */
     public RemarkCommand(Index index, Remark remark) {
         requireAllNonNull(index, remark);
 
@@ -42,7 +47,7 @@ public class RemarkCommand extends Command{
     public CommandResult execute(Model model) throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if(index.getZeroBased() >= lastShownList.size()) {
+        if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 

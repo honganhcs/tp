@@ -10,7 +10,7 @@ import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Remark;
 
-public class RemarkCommandParser implements Parser<RemarkCommand>{
+public class RemarkCommandParser implements Parser<RemarkCommand> {
     @Override
     public RemarkCommand parse(String userInput) throws ParseException {
         requireNonNull(userInput);
@@ -19,7 +19,7 @@ public class RemarkCommandParser implements Parser<RemarkCommand>{
         Index index;
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive){
+        } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     RemarkCommand.MESSAGE_USAGE), ive);
         }
