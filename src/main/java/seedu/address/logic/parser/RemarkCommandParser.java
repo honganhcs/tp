@@ -11,6 +11,14 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Remark;
 
 public class RemarkCommandParser implements Parser<RemarkCommand> {
+    /**
+     * Parses the given {@code String} of arguments in the context of the {@code RemarkCommand}
+     * and returns a {@code RemarkCommand} object for execution.
+     *
+     * @param userInput the arguments inputted by the user.
+     * @return the RemarkCommand created from the specified arguments.
+     * @throws ParseException if the user input does not follow the expected format.
+     */
     @Override
     public RemarkCommand parse(String userInput) throws ParseException {
         requireNonNull(userInput);
