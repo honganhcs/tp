@@ -184,6 +184,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if a tutorial with the given {@code tutorialName} exists in the address book.
+     */
+    public boolean hasTutorialByName(TutorialName tutorialName) {
+        return tutorials.containsByName(tutorialName);
+    }
+
+    /**
      * Adds a tutorial to the address book.
      * The tutorial must not already exist in the address book.
      */
@@ -247,18 +254,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     ///student-level methods
 
     /**
-     *  Returns true if a student with the same identity as {@code student}
-     *  exists in the tutorial with the same tutorial name as {@code tutorialName}.
-     */
-    public boolean hasStudent(Student student) {
-        requireNonNull(student);
-        TutorialName tutorialName = student.getTutorialName();
-        return tutorials.containsName(tutorialName)
-                && tutorials.getTutorialMatch(tutorialName).contains(student);
-    }
-
-
-    /**
      * Adds a student to the address book in a specified tutorial with the
      * tutorial name {@code tutorialName}.
      * The student must exist in the address book as a person.
@@ -269,6 +264,5 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person personMatch = persons.get(student.getName());
         persons.setPerson(personMatch, student);
     }
-
 
 }

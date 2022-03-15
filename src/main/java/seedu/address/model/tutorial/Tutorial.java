@@ -136,7 +136,7 @@ public class Tutorial implements Displayable {
     /**
      * Returns true if tutorial matches given TutorialName.
      */
-    public boolean isSameTutorialName(TutorialName other) {
+    public boolean hasTutorialName(TutorialName other) {
         return other != null && other.equals(getTutorialName());
     }
 
@@ -190,4 +190,5 @@ public class Tutorial implements Displayable {
                 .append(getTime());
         return builder.toString();
     }
+
 }

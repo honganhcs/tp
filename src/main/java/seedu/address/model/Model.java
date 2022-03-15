@@ -12,6 +12,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.tutorial.Tutorial;
+import seedu.address.model.tutorial.TutorialName;
 
 /**
  * The API of the Model component.
@@ -191,6 +192,10 @@ public interface Model {
      *  Returns true if a student with the same identity as {@code student}
      *  exists in the tutorial with the same tutorial name as {@code tutorialName}.
      */
-    boolean hasStudent(Student student);
+    boolean hasStudentWithName(Name studentName);
 
+    /**
+     * Returns true if a tutorial with the given {@code tutorialName} exists in the address book.
+     */
+    boolean hasTutorialByName(TutorialName tutorialName);
 }

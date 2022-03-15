@@ -40,6 +40,14 @@ public class UniqueTutorialList {
     }
 
     /**
+     * Returns true if the list contains a tutorial with the given {@code tutorialName}.
+     */
+    public boolean containsByName(TutorialName tutorialName) {
+        requireNonNull(tutorialName);
+        return internalList.stream().anyMatch(x -> x.hasTutorialName(tutorialName));
+    }
+
+    /**
      * Adds a tutorial to the list.
      * The tutorial must not already exist in the list.
      */
@@ -118,7 +126,7 @@ public class UniqueTutorialList {
      */
     public boolean containsName(TutorialName toCheckName) {
         requireNonNull(toCheckName);
-        return internalList.stream().anyMatch(x -> x.isSameTutorialName(toCheckName));
+        return internalList.stream().anyMatch(x -> x.hasTutorialName(toCheckName));
     }
 
     /**
@@ -159,4 +167,5 @@ public class UniqueTutorialList {
             internalList.get(i).removeAssessmentResultsByName(name);
         }
     }
+
 }
