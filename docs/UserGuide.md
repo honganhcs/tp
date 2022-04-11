@@ -156,8 +156,8 @@ Edits an existing person in camNUS.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* `list` should be called before calling `edit` as this is the list that the `edit` command refers to.
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* `list` should be called before calling `edit` as `INDEX` is relative to a person list.
+* Edits the person at the specified `INDEX`. `INDEX` refers to the index number shown in the displayed person list. `INDEX` **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -196,12 +196,12 @@ Removes a class from the module
 
 Format:`delete_class INDEX` or `delete_class tn/TUTORIAL_NAME`
 
+* Deletes the class at the specified `INDEX` or `TUTORIAL_NAME`.
 * `TUTORIAL_NAME` should not be given if `INDEX` is given.
 * `INDEX` should not be given if `TUTORIAL_NAME` is given.
-* Deletes the class at the specified `INDEX` or `TUTORIAL_NAME`.
 * All `Student` contacts in the class will be removed and replaced with a `Person` contact.
-* The index refers to the index number shown in the displayed list of classes.
-* The index **must be a positive integer** 1, 2, 3, …​
+* `INDEX` refers to the index number shown in the displayed list of classes.
+* `INDEX` **must be a positive integer** 1, 2, 3, …​
 
 Examples:
 
@@ -210,11 +210,13 @@ Examples:
 
 ### Listing all classes: `list_class`
 
-Shows a list of all classes on the any input date.
+Shows a list of all classes on the given day.
 
 Formats: `list_class [d/DAY]`
 
-* `DAY` is optional and should be used only for listing classes on a specific day.
+* If `DAY` is not given, lists all the classes in camNUS.
+* If `DAY` is given, lists the classes that occur on `DAY`.
+* `DAY` is optional.
 * `DAY` should be spelt in full or 3-letter abbreviation.
 
 Examples:
@@ -227,7 +229,7 @@ Examples:
 ## Student
 ### Adding person as a student to a class: `add_student`
 
-Replaces the currently existing `Person` contact with a `Student` contact and adds them to a given class.
+Replaces the currently existing `Person` contact with a `Student` contact and adds this student to the given class.
 
 Format: `add_student n/NAME id/STUDENT_ID tn/TUTORIAL_NAME`
 
@@ -241,7 +243,7 @@ You can add a class using [`add_class` command](#adding-a-class-add_class).<br>
 Eg: `add_class tn/T04 v/LT13 d/Monday tm/13:00 wk/13`<br>
 </div>
 
-* Update the person with the specified `NAME` and `STUDENT_ID` to a `Student` contact and add the student to the specified class.
+* Updates the person with the specified `NAME` to a `Student` contact with the specified `STUDENT_ID`and adds the student to the specified class.
 * Each student can only be assigned to one tutorial class.
 * `NAME` refers to the name of an existing person in camNUS.
 * `STUDENT_ID` refers to the student's unique NUSNET ID.
@@ -257,12 +259,12 @@ Removes a student from a given class, replaces the `Student` contact with a `Per
 
 Format: `remove_student INDEX tn/TUTORIAL_NAME` or `remove_student id/STUDENT_ID tn/TUTORIAL_NAME`.
 
-* `list_student` has to be called before `remove_student` as this is the list referred to by the `remove_student` command
+* `list_student` has to be called before `remove_student INDEX tn/TUTORIAL_NAME` as `INDEX` is relative to a student list.
 * Removes the student with the specified `INDEX` or `STUDENT_ID` from the class with specified `TUTORIAL_NAME`.
-* The `INDEX` refers to the index number shown in the displayed list of student in the class.
+* `INDEX` refers to the index number shown in the displayed list of student in the class.\
+* `INDEX` **must be a positive integer** 1, 2, 3, …​
 * `STUDENT_ID` refers to the student's unique NUSNET ID.
-* After this command is called, tutorial name and student id of the student will be deleted.
-* The index **must be a positive integer** 1, 2, 3, …​
+* After this command is called, the tutorial name and student ID of the student will be deleted from the contact.
 
 Examples:
 
@@ -277,7 +279,7 @@ Format:`list_student`, `list_student INDEX` or `list_student tn/TUTORIAL_NAME`
 
 * If no parameters are given, the list of all contacts who are students will be displayed.
 * If a parameter is given, the list of all students belonging to the class at the specified `INDEX` or `TUTORIAL_NAME` will be displayed.
-* `list_class` command should be called before `list_student INDEX` as `INDEX` is relative to the class list.
+* `list_class` command should be called before `list_student INDEX` as `INDEX` is relative to a class list.
 
 * `INDEX` should not be given if `TUTORIAL_NAME` is given.
 * `TUTORIAL_NAME` should not be given if `INDEX` is given.
@@ -292,7 +294,7 @@ Examples:
 
 ### Adding a comment for a student: `comment`
 
-Adds a comment as a quick note for a student, for post class admin. Not meant to be used for results or attendance. Comments are deleted whenever a new one is added.
+Adds a comment as a quick note for a student, for post class administration. Not meant to be used for results or attendance. Comments are deleted whenever a new one is added.
 
 Format: `comment id/STUDENT_ID msg/COMMENT`
 * `STUDENT_ID` refers to the student's unique NUSNET ID.
@@ -303,7 +305,7 @@ Examples:
 
 ### Removing a comment for a student: `remove_comment`
 
-Removes a comment for a student.
+Removes the comment for a student.
 
 Format: `remove_comment id/STUDENT_ID`
 * `STUDENT_ID` refers to the student's unique NUSNET ID.
@@ -313,7 +315,7 @@ Examples:
 
 ### Viewing a comment for a student: `view_comment`
 
-Views a comment for a student.
+Dislays the comment for a student.
 
 Format: `view_comment id/STUDENT_ID`
 * `STUDENT_ID` refers to the student's unique NUSNET ID.
@@ -331,6 +333,15 @@ Format: `add_assessment as/ASSESSMENT_NAME w/WEIGHTAGE f/FULL_MARKS`
 * `WEIGHTAGE` should be an integer between 1 and 100 inclusive.
 * `FULL_MARKS` is the full marks of the assessment.
 * `FULL_MARKS` should be an integer between 1 and 1000 inclusive.
+
+<div markdown="span" class="alert alert-primary">:information_source: **Note:**<br>
+Users are responsible for checking that the total `WEIGHTAGE` of all assessments does not exceed 100.<br>
+
+Currently, camNUS does not check whether the total `WEIGHTAGE` of all assessments exceeds 100.<br>
+As `WEIGHTAGE` is used only for display purposes, this will not lead to any unexpected behaviour for the user.<br>
+However, this is a feature we will implement in future versions of camNUS.<br>
+
+</div>
 
 Examples:
 * `add_assessment as/Attendance w/5 f/13`
@@ -358,13 +369,13 @@ Format: `list_assessment`
 
 ### Assigning assessment score to a student: `grade`
 
-Assigns a score to a student in a specified assessment component. Displays the list of scores of students in the same class as given student for the given assessment.
+Assigns a score to a student in an assessment component. Displays the list of scores of students in the same class as given student for the given assessment component.
 
 Format: `grade as/ASSESSMENT_NAME n/NAME s/SCORE`
 - `ASSESSMENT_NAME` is the name of the assessment.
 - `NAME` is the name of the student to be graded.
 - `SCORE` must be a non-negative integer that is smaller or equal to the full mark of the assessment with `ASSESSMENT_NAME` as its name. Since the full mark is an integer within the range 1-1000, the score must be an integer within the range 0-1000.
-- If a score already exists for student `NAME` in assessment `ASSESSMENT_NAME`, the score will be updated to `SCORE`
+- If a score already exists for student `NAME` in assessment `ASSESSMENT_NAME`, the score will be updated to `SCORE`.
 
 Example: 
 * `grade as/Assignment 1 n/Emily Tan s/5`
@@ -372,7 +383,7 @@ Example:
 
 ### Listing scores of students in a class: `list_score`
 
-Shows a list of the scores of all students of a given class for a given assessment component.
+Displays the list of the scores of all students in the given class for the given assessment component.
 
 Format: `list_score as/ASSESSMENT_NAME tn/TUTORIAL_NAME`
 - Shows an error message to user if either an assessment with `ASSESSMENT_NAME` or a class with `TUTORIAL_NAME` does not exist in camNUS.
@@ -384,7 +395,7 @@ Examples:
 
 ### Marking attendance for a student: `mark_attendance`
 
-Marks attendance for a specified student or all students in a specified class for a specified week.
+Marks the attendance of the specified student or all students in the specified class for the specified week.
 
 Format: `mark_attendance tn/TUTORIAL_NAME [id/STUDENT_ID] wk/WEEK`
 
@@ -397,9 +408,9 @@ Examples:
 * `mark_attendance tn/T04 id/e0123456 wk/1`
 * `mark_attendance tn/T04 wk/1`
 
-### Unmarking attendance for a student: `unmark_attendance`
+### Un-marking attendance for a student: `unmark_attendance`
 
-Unmarks attendance for a specified student or all students in a specified class for a specified week.
+Un-marks the attendance of the specified student or all students in the specified class for the specified week.
 
 Format: `unmark_attendance tn/TUTORIAL_NAME [id/STUDENT_ID] wk/WEEK`
 
@@ -414,16 +425,16 @@ Examples:
 
 ### Listing attendance of a class: `list_attendance`
 
-Generates the attendance list of a specified class, or a specified student.
+Displays the attendance list of the specified class, or the specified student.
 
 Format:
 1. `list_attendance tn/TUTORIAL_NAME wk/WEEK`
     * `TUTORIAL_NAME` refers to the name of an existing tutorial group.
     * `WEEK` refers to the week number of the requested attendance list.
-    * Shows attendance of all students belonging to the class with the specified `TUTORIAL_NAME`.
+    * Displays the attendance of all students belonging to the class with the specified `TUTORIAL_NAME`.
 2. `list_attendance id/STUDENT_ID`
     * `STUDENT_ID` refers to the student's unique NUSNET ID.
-    * Shows attendance of student with specified `STUDENT_ID`.
+    * Displays the attendance of the student with specified `STUDENT_ID`.
 
 Examples:
 
@@ -438,12 +449,12 @@ Finds persons whose names contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case-insensitive. e.g `hans` will match `Hans`.
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`.
 * Only the name is searched.
-* Only full words will be matched. e.g. `Han` will not match `Hans`
+* Only full words will be matched. e.g. `Han` will not match `Hans`.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`.
 
 Examples:
 
@@ -455,15 +466,15 @@ Finds persons whose details matches any of the given keywords by prefix.
 
 Format: `find [n/NAME] [tn/TUTORIAL_NAME] [t/TAG] [id/STUDENT_ID] [p/PHONE] [a/ADDRESS] [e/EMAIL]`
 
-* Partial words will be matched. e.g. `n/Han` will match `Hans`
-* Accepted prefixes includes `n/`, `p/`, `e/`, `a/`, `id/` and `tn/`
-* At least one prefix have to be used to activate partial keyword matching.
-* If invalid prefix or no prefix input given, original find will be activated.
-* The search is case-insensitive. e.g `n/hans` will match `Hans`
+* There is partial matching for the given keywords. e.g. `n/Han` will match `Hans`.
+* At least one prefix has to be provided.
+* Accepted prefixes are `n/`, `p/`, `e/`, `a/`, `id/` and `tn/`.
+* If invalid prefixes or no prefix is provided, the first version of `find` will be executed, where only full words are matched and only the name is searched.
+* The search is case-insensitive. e.g `n/hans` will match `Hans`.
 * Keyword matching will always start from the first alphabet or number of the attribute value.
-  e.g. `n/han` will return `Hansel` and will not return `Krishan`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `n/Hans Bo` will return `Hans Gruber`, `Bo Yang` and `Hansel`
+  e.g. `n/han` will return `Hansel` and will not return `Krishan`.
+* Persons matching at least one keyword will be returned (i.e. 'or' search).
+  e.g. `n/Hans Bo` will return `Hans Gruber`, `Bo Yang` and `Hansel`.
 
 Examples:
 
@@ -518,7 +529,7 @@ _Details coming soon ..._
 | **Clear**             | `clear`                                                                                                                                                                              |
 | **Delete**            | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                  |
 | **Delete Class**      | `delete_class INDEX` or `delete_class tn/TUTORIAL_NAME` <br> e.g., `delete_class 1` or `delete_class tn/T04`                                                                                                          |
-| **Remove Student**    | `remove_student INDEX tn/TUTORIAL_NAME` <br> `remove_student INDEX tn/TUTORIAL_NAME` <br> e.g. `remove_student 1 tn/G04` / `remove_student id/e0123456 tn/G04`                       |
+| **Remove Student**    | `remove_student INDEX tn/TUTORIAL_NAME` <br> `remove_student id/STUDENT_ID tn/TUTORIAL_NAME` <br> e.g. `remove_student 1 tn/G04` / `remove_student id/e0123456 tn/G04`                       |
 | **Delete Assessment** | `delete_assessment as/ASSESSMENT_NAME` <br> e.g., `delete_assessment as/Attendance`                                                                                                  |
 | **Edit**              | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 1 p/91234567 e/limsteven@example.com`                                          |
 | **Find**              | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`<br>`find [n/NAME] [id/STUDENT_ID] [a/ADDRESS] [e/EMAIL] [p/PHONE_NUMBER] [tn/TUTORIAL_NAME] [t/TAG]`<br> e.g. find n/emily |

@@ -8,6 +8,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalStudents.ALEX;
+import static seedu.address.testutil.TypicalStudents.CHARLIE;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.StudentNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class UniquePersonListTest {
@@ -166,5 +169,23 @@ public class UniquePersonListTest {
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
             -> uniquePersonList.asUnmodifiableObservableList().remove(0));
+    }
+
+    @Test
+    public void getIdOfStudent() {
+        uniquePersonList.add(ALEX);
+        uniquePersonList.add(BOB);
+        assertEquals(uniquePersonList.getIdOfStudent(ALEX.getName()), ALEX.getStudentId());
+        assertThrows(StudentNotFoundException.class, () -> uniquePersonList.getIdOfStudent(BOB.getName()));
+        assertThrows(PersonNotFoundException.class, () -> uniquePersonList.getIdOfStudent(CHARLIE.getName()));
+    }
+
+    @Test
+    public void getTutorialNameOfStudent() {
+        uniquePersonList.add(ALEX);
+        uniquePersonList.add(BOB);
+        assertEquals(uniquePersonList.getTutorialNameOfStudent(ALEX.getName()), ALEX.getTutorialName());
+        assertThrows(StudentNotFoundException.class, () -> uniquePersonList.getTutorialNameOfStudent(BOB.getName()));
+        assertThrows(PersonNotFoundException.class, () -> uniquePersonList.getTutorialNameOfStudent(CHARLIE.getName()));
     }
 }

@@ -19,6 +19,28 @@ public class DayTest {
     }
 
     @Test
+    public void equals() {
+        Day sunday = new Day("sun");
+        Day sundayCopy = new Day("Sunday");
+        Day saturday = new Day("Sat");
+
+        // same object -> returns true
+        assertTrue(sunday.equals(sunday));
+
+        // same values -> returns true
+        assertTrue(sunday.equals(sundayCopy));
+
+        // different types -> returns false
+        assertFalse(sunday.equals(1));
+
+        // null -> returns false
+        assertFalse(sunday.equals(null));
+
+        // different day -> returns false
+        assertFalse(sunday.equals(saturday));
+    }
+
+    @Test
     public void isValidDay() {
         // null days
         assertThrows(NullPointerException.class, () -> Day.isValidDay(null));

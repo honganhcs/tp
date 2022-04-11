@@ -3,12 +3,19 @@ package seedu.address.model.tutorial;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.TutorialTestUtil.VALID_DAY_TG2;
 import static seedu.address.logic.commands.TutorialTestUtil.VALID_TIME_TG2;
 import static seedu.address.logic.commands.TutorialTestUtil.VALID_TUTORIAL_NAME_TG1;
 import static seedu.address.logic.commands.TutorialTestUtil.VALID_TUTORIAL_NAME_TG2;
 import static seedu.address.logic.commands.TutorialTestUtil.VALID_VENUE_TG2;
+import static seedu.address.testutil.TypicalAssessments.OP1;
+import static seedu.address.testutil.TypicalAssessments.OP2;
+import static seedu.address.testutil.TypicalStudentResults.E0123456;
+import static seedu.address.testutil.TypicalStudents.ALEX;
+import static seedu.address.testutil.TypicalStudents.JACK;
+import static seedu.address.testutil.TypicalStudents.JOHN;
 import static seedu.address.testutil.TypicalTutorials.T01;
 import static seedu.address.testutil.TypicalTutorials.T02;
 import static seedu.address.testutil.TypicalTutorials.TG2;
@@ -18,12 +25,14 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import seedu.address.model.assessment.AssessmentResults;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.AttendanceList;
 import seedu.address.model.attendance.Comment;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.NusNetId;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.StudentNotFoundException;
 import seedu.address.testutil.TutorialBuilder;
 import seedu.address.testutil.TypicalStudents;
 
@@ -302,6 +311,37 @@ public class TutorialTest {
         assertTrue(testTutorial.getStudentsList().getStudentsInClass().size() == 1);
         assertFalse(testTutorial.containsStudentWithId(eveId));
         assertTrue(testTutorial.containsStudentWithId(fionaId));
+
+    }
+
+    @Test
+    public void testStudentResultInTutorial() {
+        Tutorial tutorial = new TutorialBuilder().withTutorialName("Test Class").build();
+        AssessmentResults op1 = new AssessmentResults(OP1.getAssessmentName());
+        AssessmentResults op2 = new AssessmentResults(OP2.getAssessmentName());
+        tutorial.addAssessmentResults(op1);
+        tutorial.addAssessmentResults(op2);
+        ObservableList<Person> personObservableList = FXCollections.observableArrayList();
+        personObservableList.add(JACK);
+        personObservableList.add(JOHN);
+        FilteredList<Person> personList = new FilteredList<Person>(personObservableList);
+        tutorial.setStudentsList(personList);
+        tutorial.addStudentResult(OP1.getAssessmentName(), E0123456);
+
+        // gets correct assessment result
+        assertTrue(tutorial.getAssessmentResult(OP1.getAssessmentName()).equals(op1));
+
+        // has the correct student result
+        assertTrue(tutorial.hasStudentResult(OP1.getAssessmentName(), E0123456.getStudentId()));
+
+        // does not have student result as they are not added
+        assertFalse(tutorial.hasStudentResult(OP2.getAssessmentName(), E0123456.getStudentId()));
+        assertFalse(tutorial.hasStudentResult(OP1.getAssessmentName(), JACK.getStudentId()));
+        assertFalse(tutorial.hasStudentResult(OP2.getAssessmentName(), JACK.getStudentId()));
+
+        // does not have student in the tutorial
+        assertThrows(StudentNotFoundException.class, (
+            ) -> tutorial.hasStudentResult(OP1.getAssessmentName(), ALEX.getStudentId()));
 
     }
 

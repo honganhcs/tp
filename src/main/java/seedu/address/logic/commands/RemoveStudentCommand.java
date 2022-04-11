@@ -136,4 +136,24 @@ public class RemoveStudentCommand extends Command {
                     toRemoveFromTutorialName));
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        } else if (other instanceof RemoveStudentCommand) {
+            RemoveStudentCommand command = (RemoveStudentCommand) other;
+            if (command.toRemoveIndex != null && toRemoveIndex != null) {
+                return toRemoveIndex.equals(command.toRemoveIndex)
+                        && toRemoveFromTutorialName.equals(command.toRemoveFromTutorialName);
+            } else if (command.toRemoveStudentId != null && toRemoveStudentId != null) {
+                return toRemoveStudentId.equals(command.toRemoveStudentId)
+                        && toRemoveFromTutorialName.equals(command.toRemoveFromTutorialName);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

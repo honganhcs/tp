@@ -116,7 +116,6 @@ public class AddStudentCommandTest {
         Person validPerson = new PersonBuilder().withName(VALID_NAME_AARON).build();
         Tutorial validTutorial = new TutorialBuilder().withTutorialName(VALID_TUTORIAL_NAME_TG1).build();
 
-
         model.addPerson(validPerson);
         model.addTutorial(validTutorial);
 

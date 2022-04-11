@@ -29,4 +29,11 @@ public class TagContainsKeywordsPredicate implements Predicate<Person> {
                                             .anyMatch(tag -> StringUtil
                                                     .containsPartialWordIgnoreCase(tag.tagName, keyword)));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TagContainsKeywordsPredicate // instanceof handles nulls
+                && keywords.equals(((TagContainsKeywordsPredicate) other).keywords)); // state check
+    }
 }

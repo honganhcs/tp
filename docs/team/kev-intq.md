@@ -19,13 +19,9 @@ Given below are my contributions to the project.
   * What it does: Allows the user to write down personal comments for each student.
   * Justification: The user may want to write down reminders or notes about a student for a particular week. This feature allows the user to quickly jot down comments for them.
   
-* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2122s2.github.io/tp-dashboard/?search=w13&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2022-02-18&tabOpen=true&tabType=authorship&tabAuthor=kev-intq&tabRepo=AY2122S2-CS2103T-W13-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false)
-
-* **Project management**:
-  * Initialize the repository and base project with suitable settings and workflows
-  * Setup code coverage for project
-  * Managed release `v1.2.1`
-
+* **Code contributed**: 
+  * [RepoSense link](https://nus-cs2103-ay2122s2.github.io/tp-dashboard/?search=w13&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2022-02-18&tabOpen=true&tabType=authorship&tabAuthor=kev-intq&tabRepo=AY2122S2-CS2103T-W13-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false)
+  
 * **Enhancements to existing features**: Enhanced help window
   * What it has changed: Instead of a help window providing the user to the user guide link, it now contains the full list of commands.
   * Justification: Some users may not have internet connectivity and may be unable to view the user guide link. Thus, a fully local guide containing the list of commands within the app is needed.
@@ -33,13 +29,16 @@ Given below are my contributions to the project.
 
 * **Documentation**:
     * User Guide:
-      * to be added soon
+      * Added new features for viewing of help, and management of classes.
     * Developer Guide:
       * Added the implementation details of `HelpWindow` [#99](https://github.com/AY2122S2-CS2103T-W13-2/tp/pull/99)
 
 * **Team-based tasks**:
-  * to be added soon
+  * Initialize the repository and base project with suitable settings and workflows
+  * Setup code coverage for project
+  * Managed release `v1.2.1`
 
 * **Review/Mentoring**:
-  * to be added soon
+  * Reported bugs and suggestions for other teams in the class (examples: [1](https://github.com/AY2122S2-CS2103T-T11-1/tp/issues/198) [2](https://github.com/AY2122S2-CS2103T-T11-1/tp/issues/185) [3](https://github.com/AY2122S2-CS2103T-T11-1/tp/issues/180))
+
   

@@ -55,6 +55,15 @@ public class TypicalStudents {
             .withPhone("81244556").withTags("student").withStudentId("e0129820")
             .withTutorialName("T01").build();
 
+    public static final Student JOHN = new StudentBuilder().withName("John")
+            .withAddress("123, Clementi North, #18-111").withEmail("john@example.com")
+            .withPhone("81244556").withTags("student").withStudentId("e0123456")
+            .withTutorialName("Test Class").build();
+    public static final Student JACK = new StudentBuilder().withName("Jack")
+            .withAddress("123, Clementi North, #18-111").withEmail("jack@example.com")
+            .withPhone("81244556").withTags("student").withStudentId("e0123555")
+            .withTutorialName("Test Class").build();
+
 
     // Manually added - Student's details found in {@code StudentTestUtil}
     public static final Student AARON = new StudentBuilder().withName(VALID_NAME_AARON).withPhone(VALID_PHONE_AARON)

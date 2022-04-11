@@ -30,8 +30,8 @@ may be working on.
 
 --------------------------------------------------------------------------------------------------------------------
 ## **Acknowledgements**
-
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* This project is based on the AddressBook-Level3 project created by the SE-EDU initiative.
+* Libraries used: [**JavaFx**](https://openjfx.io/), [**Jackson**](https://github.com/FasterXML/jackson), [**JUnit5**](https://github.com/junit-team/junit5), [**PlantUML**](https://plantuml.com/)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/se-edu/addressbook-level3/tree/master/docs/diagrams/) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/docs/diagrams/) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
 </div>
 
 ### Architecture
@@ -58,7 +58,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** has two classes called [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
+**`Main`** has two classes called [`Main`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup methods where necessary.
 
@@ -91,24 +91,33 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `DisplayListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays a list of `Displayable` objects residing in the `Model`.
+* objects belonging to a class that implement the `Displayable` interface can be shown in the UI component
+* Classes that implement `Displayable` are:
+  1. `Person`
+  2. `Student`
+  3. `Tutorial`
+  4. `Comment`
+  5. `Attendance`
+  6. `Assessment`
+  7. `StudentResult`
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -118,7 +127,7 @@ How the `Logic` component works:
 1. When `Logic` is called upon to execute a command, it uses the `AddressBookParser` class to parse the user command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `AddCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to add a person).
-1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
+1. The result of the command execution is encapsulated as a `CommandResult` object which is returned from `Logic`.
 
 The Sequence Diagram below illustrates the interactions within the `Logic` component for the `execute("delete 1")` API call.
 
@@ -136,10 +145,9 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
-
+![Structure of the Model Component](images/ModelClassDiagram.png)
 
 The `Model` component,
 
@@ -148,6 +156,7 @@ The `Model` component,
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores the currently 'selected' `Tutorial` objects (e.g., results of a list command) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `FilteredList<Tutorial>` that can be 'observed'.
 * stores all `Assessment` objects in a separate _filtered_ list which is exposed to outsiders as an unmodifiable `FilteredList<Assessment>` that can be 'observed'.
+* stores 'selected' `Attendance`, `StudentResult` and `Comment` objects in separate _filtered_ lists to be used by the Logic component for related commands.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -160,9 +169,9 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2122S2-CS2103T-W13-2/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
-<img src="images/StorageClassDiagram.png" width="700" />
+![Structure of the Storage Component](images/StorageClassDiagram.png)
 
 The `Storage` component,
 * can save both address book data and user preference data in json format, and read them back into corresponding objects.
@@ -187,7 +196,7 @@ This `HelpWindow` extends `AddressBook` with a detailed Help Window implementing
 * `HelpWindow#addDevGuideText()` —  Shows the user a clickable hyperlink for the Developer Guide
 * `HelpWindow#showCommands()` —  Shows the user a list of the commands present in camNUS, along with a detailed guide for each command.
 
-These operations are exposed in the `HelpWindow` class as `HelpWindow#addIntroText()`, `HelpWindow#addDevGuideText()` and `HelpWindow#showCommands()` respectively
+These operations are exposed in the `HelpWindow` class as `HelpWindow#addIntroText()`, `HelpWindow#addDevGuideText()` and `HelpWindow#showCommands()` respectively.
 
 Given below is an example usage scenario and how the Help Window behaves at each step.
 
@@ -227,7 +236,7 @@ Step 4. After browsing through the list of commands, the user decides now that h
 
 _{more aspects and alternatives to be added}_
 
-### Display students feature
+### Display Students Feature
 
 #### Implementation
 
@@ -279,13 +288,13 @@ The following sequence diagram shows how the list operation works:
       * Difficulty in accommodating a larger variety of different lists with the implementation of more features in future
       * The UI can appear messy in the presence of multiple long lists
 
-### Add assessment feature
+### Add Assessment Feature
 #### Implementation
 The `add_assessment` command is facilitated by the enhanced `AddressBook`. It extends the `model` package with an `Assessment` class and its field classes, `AssessmentName`, `Weightage` and `FullMark`. It also extends the `AddressBook` with the `assessments` field, which is a `UniqueAssessmentList`. It implements the following operations:
 - `AddressBook#hasAssessment()` —  Checks if an assessment is present inside `assessments`.
 - `AddressBook#addAssessment()` —  Adds an assessment to `assessments` if it is not already in the list.
 
-These operations are exposed in the `Model` interface as `Model#hasAssessment()` and `Model#addAssessment() respectively.
+These operations are exposed in the `Model` interface as `Model#hasAssessment()` and `Model#addAssessment()` respectively.
 
 Given below is an example usage scenario and how `add_assessment` behaves at each step.
 
@@ -307,7 +316,7 @@ The following sequence diagram shows how the add assessment operation works:
 
 * **Alternative 1 (current choice):** assessments are stored as `Assessment` objects in the `AddressBook`'s `assessments` list. The student results for each assessment is stored inside an `AssessmentResults` object which is stored inside an `AssessmentResultsList` in each `Tutorial`.
     * Pros:
-        * Can quickly display the list of results of a tutorial in an assessment.
+        * Can quickly display the list of results of a tutorial in an assessment, which is a useful feature for TAs.
         * High degree of abstraction may allow future changes in the implementation of assessment results and student result.
         * Does not require many changes to the existing code as the `AddressBook` class is simply updated with new fields to store the assessment and tutorial list.
     * Cons:
@@ -317,11 +326,11 @@ The following sequence diagram shows how the add assessment operation works:
 * **Alternative 2:** Each `Student` stores their own results. The `Tutorial` does not contain student results.
     * Pros:
         * Less hierarchical design - easier to understand code.
-        * Retrieving a student is faster as it only requires searching within the student's results list for the requested assessment.
+        * Can quickly display the results for all assessments of a student. However, this feature is deemed less important than displaying the results of all students in a class for a particular assessment, which helps TAs gauge the relative performance and needs of students.
     * Cons:
-        * Displaying the list of results of a tutorial may take more time and requires accessing each student in the tutorial.
+        * Displaying the list of results of a tutorial requires accessing each student and searching in their assessment results list. This may require more complex code and slow down performance as compared to Alternative 1.
 
-### Add student feature
+### Add Student Feature
 
 This `AddStudentCommand` feature is facilitated by display student feature. It extends the application implementing the
 following operations:
@@ -369,11 +378,11 @@ The following sequence diagram shows how this operation works:
 
 * **Alternative 2:** Create a separate student list and leave person untouched.
     * Pros: Fewer checks on whether person is a student required.
-    * Cons: Additional filters required to remove duplicates when display both persons and students.
+    * Cons: Additional filters required to remove duplicates when displaying both persons and students.
 
 _{more aspects and alternatives to be added}_
 
-### Remove students feature
+### Remove Student Feature
 
 This `RemoveStudentCommand`feature is facilitated by the display students feature. It extends the application by
 implementing the following operations:
@@ -398,17 +407,17 @@ relevant to create a new Person object, to replace the Student object.
 
 ![BeforeRemoveStudent](images/RemoveStudentCommandState1b.png)
 
-##### Scenario 2: `remove_student i/...`
+##### Scenario 2: `remove_student INDEX...`
 
-step 1. The user executes `list_student` command and the `DisplayListPanel` displays a list of all Students in the
+Step 1. The user executes `list_student` command and the `DisplayListPanel` displays a list of all Students in the
 application.
 
-refer to [Display students feature](#display-students-feature) to see how the `list_student` command works.
+refer to [Display Students Feature](#display-students-feature) to see how the `list_student` command works.
 
-step 2. The user executes `remove_student i/...` command, where `i` is the index of the desired student to be removed
+Step 2. The user executes `remove_student INDEX...` command, where `INDEX` is the index of the desired student to be removed
 in the current `DisplayListPanel`.
 
-step 3. The student to be removed is extracted from the list and removed using `Model#removeStudent()`.
+Step 3. The student to be removed is extracted from the list and removed using `Model#removeStudent()`.
 
 **Note:** In both scenarios, validity checks are done with `Model#hasTutorialWithName()`,
 `Model#tutorialHasStudentWithId()` and for scenario 2, additional checks are done to ensure index entered is not out of
@@ -537,19 +546,15 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* has a need to manage a significant number of contacts.
+* prefer desktop apps over other types.
+* can type fast.
+* prefers typing to mouse interactions.
+* is reasonably comfortable using CLI apps.
 * TAs of modules that require class participation, and/or have regular submissions.
 
 **Value proposition**:
-* manage contacts faster than a typical mouse/GUI driven app
-* Systematic and convenient way to manage assessments and class participation among students based on their contacts.
-* Address book contains contacts of all students in class.
-  Features can include special remarks, class participation fulfilled, assignment submitted, attendance.
-
+* provides TAs a systematic and convenient way to manage assessments and class participation among students based on their contacts.
 
 
 ### User stories
@@ -592,20 +597,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | 32  | `*`      | TA                                                  | resize the application window                                                                                                  | avoid disruptions of switching between windows and tutorial documents during class.                                  |
 | 33  | `*`      | TA                                                  | group a specified number of students in a class together randomly.                                                             | assign project groups quickly.                                                                                       |
 
-*{More to be added}*
-
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `camNUS` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: Delete a person**
 
 **MSS**
 
-1.  User requests to list persons
-2.  camNUS shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  camNUS deletes the person
+1.  User requests to list persons.
+2.  camNUS shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  camNUS deletes the person. 
 
     Use case ends.
 
@@ -620,42 +623,47 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a1. camNUS shows an error message.
 
       Use case resumes at step 2.
-
-*{More to be added}*
-
-
-**Use Case: Update results for an assignment**
+    
+**Use Case: Update a student's result for an assessment**
 
 **MSS**
-1. User request to list all students in a class
-2. camNUS show a list of students
-3. User request to update the score of an assessment component
-4. camNUS show one student at a time and request input score from user for each student
-5. The scores of all students are updated
+1. camNUS shows a list of persons.
+2. User requests to list all students in a class.
+3. camNUS shows a list of students.
+4. User requests to update the score of a student in an assessment component.
+5. camNUS updates the student's score for the assessment component.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. No existing class with input class_code
+* 2a. No class with given TUTORIAL_NAME exists in camNUS.
 
-    Use case ends.
+    * 2a1. camNUS shows an error message.
+    
+      Use case resumes at step 1.
 
-* 3a. No existing assessment component with input assessment_name
+* 4a. No assessment component with the given assessment name exists in camNUS. 
 
-  New assessment component is created.
+    * 4a1. camNUS shows an error message.
+      Use case resumes at step 3.
+* 4b. No student with the given name exists in camNUS.
+  * 4b1. camNUS shows an error message.
+     Use case resumes at step 3.
 
-* 4a. Student did not submit relevant assessment
-
-  Use case resumes at step 4 at the next student in the list.
+* 4c. The given score is invalid
+  * 4c1. camNUS shows an error message.
+     Use case resumes at step 3.
 
 **Use case: Edit a person**
 
 **MSS**
-1. User requests to list persons
-2. camNUS shows a list of persons
-3. User requests to edit a specific person in the list and provides the field(s) they want to update
-4. camNUS updates the existing values to the input values
+1. User requests to list persons.
+2. camNUS shows a list of persons.
+3. User requests to edit a specific person in the list and provides the field(s) they want to update.
+4. camNUS updates the existing values to the input values.
+
+  Use case ends.
 
 **Extensions**
 
@@ -680,6 +688,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 4a1. Existing tags are removed and inputted tags are added to the person.
 * 4b. No value is entered after t/.
   * 4b1. Existing tags are removed from the person.
+
+*{More to be added}*
 
 ### Non-Functional Requirements
 
